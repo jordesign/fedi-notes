@@ -11,6 +11,12 @@ export const SITE = {
 export const PUBLIC_KEY_PEM = "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmqpLmFXR/Wd3J2ajSpka\n1bGolDsaDKG90WfuIRYvsGotOXgy0ebQZuiNmPEYZH3ikCxXSnyp4lxJd/gCau8x\nkQ3dSTRnvVHWJ9ZL8L0vtvvxo72D9zNQ6i6+Z+PelY+Hw6CnHDxyCRpOm9fGDrHX\nd0PuGoSVb+sc1YT9g64WyVfEr36c00CQyHP5lQ9Humq7v+JqtlmfBnUKXpvvtU7C\nOw+jybpa7YpIP1Err7gYMbSx/CuMZL+vfUbiOwSKYwmlD0OIpunCXlK7Q8mYQK5Z\n+ttrATMw+sTLl/Ugq1jLdaGxFBs9hl9zXJTBMTamj7KbVKjqnktIKACvyMywivrS\ntQIDAQAB\n-----END PUBLIC KEY-----\n";
 export const NOTES: Note[] = [
   {
+    "id": "2026-09-25-second-note",
+    "published": "2026-09-25T08:05:00.000Z",
+    "html": "<p>Second note. This one was written by an agent, built into static HTML, published with <code>sf publish</code>, then pushed to followers by a small worker.</p><p>No database-backed CMS in sight, apart from the tiny list of who follows.</p>",
+    "hash": "c1dba5dd9286b4b7c8f658bcee825ee47b674052c833689787917122d1c87a66"
+  },
+  {
     "id": "2026-09-25-hello-fediverse",
     "published": "2026-09-25T07:30:00.000Z",
     "html": "<p>Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets you follow it with ActivityPub.</p><p>If you're reading this in Mastodon, it worked.</p>",
