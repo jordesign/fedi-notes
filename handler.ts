@@ -64,6 +64,7 @@ function noteObject(n: Note) {
     published: n.published,
     ...(n.updated ? { updated: n.updated } : {}),
     url: `${BASE}/notes/${n.id}/`,
+    ...(n.image ? { attachment: [{ type: "Image", mediaType: n.image.mediaType, url: `${BASE}${n.image.url}`, name: n.image.alt }] } : {}),
     to: [PUBLIC],
     cc: [FOLLOWERS],
   };
