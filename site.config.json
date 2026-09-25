@@ -1,0 +1,8 @@
+{
+  "url": "https://fedi-notes.view.fast",
+  "username": "notes",
+  "name": "Jordan's notes",
+  "summary": "Short notes, written with an agent, published as static HTML on Spacefast and federated over ActivityPub. A prototype.",
+  "published": "2026-09-25T00:00:00Z",
+  "timeZone": "Australia/Brisbane"
+}

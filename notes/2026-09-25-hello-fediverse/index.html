@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hello, Fediverse. This is a static notes site on Spacefast.  · Jordan's notes</title>
+<link rel="alternate" type="application/activity+json" href="https://fedi-notes.view.fast/ap/notes/2026-09-25-hello-fediverse">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="me">
+  <a class="name" href="/">Jordan's notes</a>
+  <button class="handle" type="button" title="Copy handle" data-copy="@notes@fedi-notes.view.fast">@notes@fedi-notes.view.fast</button>
+</header>
+<main>
+<article class="note">
+  <div class="body"><p>Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets you follow it with ActivityPub.</p><p>If you're reading this in Mastodon, it worked.</p></div>
+  <a class="meta" href="/notes/2026-09-25-hello-fediverse/" aria-current="page"><time datetime="2026-09-25T07:30:00.000Z">25 Sept 2026, 5:30 pm</time></a>
+</article>
+<section class="reactions" data-note="2026-09-25-hello-fediverse" hidden>
+  <p class="counts"></p>
+  <ol class="replies"></ol>
+</section>
+<script>
+(async () => {
+  const el = document.querySelector(".reactions");
+  const r = await fetch("/ap/interactions/" + el.dataset.note).then((r) => r.ok ? r.json() : null).catch(() => null);
+  if (!r || (!r.likes && !r.boosts && !r.replies.length)) return;
+  const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+  el.querySelector(".counts").textContent = [plural(r.likes, "like"), plural(r.boosts, "boost"), plural(r.replies.length, "reply").replace("replys", "replies")].join(" · ");
+  const ol = el.querySelector(".replies");
+  for (const x of r.replies) {
+    const li = document.createElement("li");
+    const a = Object.assign(document.createElement("a"), { href: x.url, textContent: x.handle });
+    const p = document.createElement("p");
+    p.textContent = new DOMParser().parseFromString(x.content, "text/html").body.textContent;
+    li.append(a, p);
+    ol.append(li);
+  }
+  el.hidden = false;
+})();
+</script>
+</main>
+<footer>Follow @notes@fedi-notes.view.fast from Mastodon or any Fediverse app. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
+<script>
+document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); } catch {}
+});
+</script>
+</body>
+</html>

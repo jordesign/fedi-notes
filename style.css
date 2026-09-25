@@ -1,0 +1,54 @@
+:root {
+  --bg: #faf8f4;
+  --fg: #1d1b18;
+  --muted: #7a746b;
+  --line: #e6e1d8;
+  --card: #ffffff;
+  --accent: #6246ea;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151412;
+    --fg: #ece8e1;
+    --muted: #9a9387;
+    --line: #2c2a26;
+    --card: #1c1b18;
+    --accent: #a594ff;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 17px/1.55 ui-serif, Georgia, "Iowan Old Style", serif;
+}
+.me, main, footer { max-width: 36rem; margin: 0 auto; padding: 0 16px; }
+.me {
+  display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline; justify-content: space-between;
+  padding-top: 3rem; padding-bottom: 1.5rem;
+}
+.name { font-size: 1.35rem; font-weight: 600; color: inherit; text-decoration: none; }
+.handle {
+  font: 13px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted);
+  background: none; border: 1px solid var(--line); border-radius: 999px; padding: .45rem .7rem; cursor: pointer;
+}
+.handle:hover { color: var(--accent); border-color: var(--accent); }
+.handle.copied::after { content: " ✓ copied"; color: var(--accent); }
+.summary { color: var(--muted); margin: 0 0 2rem; }
+.note {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.1rem 1.25rem .9rem; margin-bottom: 1rem;
+}
+.note .body p { margin: 0 0 .7rem; overflow-wrap: anywhere; }
+.meta { font: 13px ui-sans-serif, system-ui, sans-serif; color: var(--muted); text-decoration: none; }
+.meta:hover { color: var(--accent); }
+a { color: var(--accent); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--line); padding: .1em .3em; border-radius: 4px; }
+.reactions { font: 14px/1.5 ui-sans-serif, system-ui, sans-serif; }
+.counts { color: var(--muted); }
+.replies { list-style: none; padding: 0; }
+.replies li { border-left: 2px solid var(--line); padding: .2rem 0 .2rem .9rem; margin-bottom: .8rem; }
+.replies p { margin: .2rem 0 0; }
+footer { color: var(--muted); font: 13px/1.5 ui-sans-serif, system-ui, sans-serif; padding-top: 2rem; padding-bottom: 3rem; }

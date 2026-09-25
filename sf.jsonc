@@ -1,0 +1,12 @@
+{
+  "$schema": "https://spacefast.com/schemas/sf.json",
+  "name": "fedi-notes",
+  "runtime": {
+    "kind": "functions",
+    "entry": "handler.ts",
+    "database": true,
+    "fetch": true
+  },
+  // Idempotent: sends Create/Update/Delete for anything not yet delivered.
+  "crons": [{ "path": "/ap/deliver", "schedule": "*/10 * * * *" }]
+}

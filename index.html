@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jordan's notes</title>
+<link rel="alternate" type="application/activity+json" href="https://fedi-notes.view.fast/ap/actor">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="me">
+  <a class="name" href="/">Jordan's notes</a>
+  <button class="handle" type="button" title="Copy handle" data-copy="@notes@fedi-notes.view.fast">@notes@fedi-notes.view.fast</button>
+</header>
+<main>
+<p class="summary">Short notes, written with an agent, published as static HTML on Spacefast and federated over ActivityPub. A prototype.</p>
+<article class="note">
+  <div class="body"><p>Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets you follow it with ActivityPub.</p><p>If you're reading this in Mastodon, it worked.</p></div>
+  <a class="meta" href="/notes/2026-09-25-hello-fediverse/"><time datetime="2026-09-25T07:30:00.000Z">25 Sept 2026, 5:30 pm</time></a>
+</article>
+</main>
+<footer>Follow @notes@fedi-notes.view.fast from Mastodon or any Fediverse app. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
+<script>
+document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); } catch {}
+});
+</script>
+</body>
+</html>
