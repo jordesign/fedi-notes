@@ -299,16 +299,6 @@ export default {
 
       if (path === "/ap/deliver") return json(await deliver(env));
 
-      // Temporary probe: logs (privately, to `sf logs runtime`) what a request carries when the visitor
-      // is signed in to Spacefast. Cookie values and credentials are never logged; nothing is echoed back.
-      if (path === "/ap/whoami") {
-        const headers = [...request.headers].map(([k, v]) =>
-          k === "cookie" ? `${k}: [${v.split(";").map((c) => c.split("=")[0].trim()).join(", ")}]` : /authorization|signature|token|secret|key/i.test(k) ? `${k}: (redacted, ${v.length} chars)` : `${k}: ${v}`,
-        );
-        console.log("whoami", JSON.stringify({ headers, envKeys: Object.keys(env) }));
-        return text("Logged. Thanks!", 200);
-      }
-
       m = path.match(/^\/ap\/interactions\/([^/]+)$/);
       if (m) {
         await ensureSchema(env.DB);
