@@ -12,6 +12,27 @@ export const SITE = {
 export const PUBLIC_KEY_PEM = "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmqpLmFXR/Wd3J2ajSpka\n1bGolDsaDKG90WfuIRYvsGotOXgy0ebQZuiNmPEYZH3ikCxXSnyp4lxJd/gCau8x\nkQ3dSTRnvVHWJ9ZL8L0vtvvxo72D9zNQ6i6+Z+PelY+Hw6CnHDxyCRpOm9fGDrHX\nd0PuGoSVb+sc1YT9g64WyVfEr36c00CQyHP5lQ9Humq7v+JqtlmfBnUKXpvvtU7C\nOw+jybpa7YpIP1Err7gYMbSx/CuMZL+vfUbiOwSKYwmlD0OIpunCXlK7Q8mYQK5Z\n+ttrATMw+sTLl/Ugq1jLdaGxFBs9hl9zXJTBMTamj7KbVKjqnktIKACvyMywivrS\ntQIDAQAB\n-----END PUBLIC KEY-----\n";
 export const NOTES: Note[] = [
   {
+    "id": "2026-10-02-betchadupa-gaelic-club",
+    "published": "2026-10-02T07:39:16.000Z",
+    "html": "<p>Betchadupa live at the Gaelic Club, Sydney. <a href=\"https://fedi-notes.view.fast/tags/music\" class=\"mention hashtag\" rel=\"tag\">#<span>music</span></a> <a href=\"https://fedi-notes.view.fast/tags/livemusic\" class=\"mention hashtag\" rel=\"tag\">#<span>livemusic</span></a> <a href=\"https://fedi-notes.view.fast/tags/musicphotography\" class=\"mention hashtag\" rel=\"tag\">#<span>musicphotography</span></a></p>",
+    "text": "Betchadupa live at the Gaelic Club, Sydney. #music #livemusic #musicphotography",
+    "tags": [
+      "music",
+      "livemusic",
+      "musicphotography"
+    ],
+    "images": [
+      {
+        "url": "/media/betchadupa-gaelic-club.jpg",
+        "alt": "a photo of three members of an alternative rock band, rocking out onstage with motion blur",
+        "mediaType": "image/jpeg",
+        "width": 764,
+        "height": 1029
+      }
+    ],
+    "hash": "1df78422232845a3189de54768e336ad3ec860ebf8c23921c31084d2421c1c5e"
+  },
+  {
     "id": "2026-09-25-looks-like-it-is-working",
     "published": "2026-09-25T08:15:00.000Z",
     "html": "<p>Looks like it is working.</p>",

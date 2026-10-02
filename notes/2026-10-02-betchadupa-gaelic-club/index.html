@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jordan's notes</title>
-<link rel="alternate" type="application/activity+json" href="https://fedi-notes.view.fast/ap/actor">
+<title>Betchadupa live at the Gaelic Club, Sydney. #music #livemusi · Jordan's notes</title>
+<link rel="alternate" type="application/activity+json" href="https://fedi-notes.view.fast/ap/notes/2026-10-02-betchadupa-gaelic-club">
 <link rel="alternate" type="application/rss+xml" title="Jordan's notes" href="https://fedi-notes.view.fast/feed.xml">
 <link rel="alternate" type="application/feed+json" title="Jordan's notes" href="https://fedi-notes.view.fast/feed.json">
 <meta name="fediverse:creator" content="notes@fedi-notes.view.fast">
@@ -16,27 +16,34 @@
   <button class="handle" type="button" title="Copy handle" data-copy="@notes@fedi-notes.view.fast">@notes@fedi-notes.view.fast</button>
 </header>
 <main>
-<p class="summary">Short notes, written with an agent, published as static HTML on Spacefast and federated over ActivityPub. A prototype.</p>
 <article class="note">
   <div class="body"><p>Betchadupa live at the Gaelic Club, Sydney. <a href="https://fedi-notes.view.fast/tags/music" class="mention hashtag" rel="tag">#<span>music</span></a> <a href="https://fedi-notes.view.fast/tags/livemusic" class="mention hashtag" rel="tag">#<span>livemusic</span></a> <a href="https://fedi-notes.view.fast/tags/musicphotography" class="mention hashtag" rel="tag">#<span>musicphotography</span></a></p></div>
   <div class="album" data-count="1"><img class="media" src="/media/betchadupa-gaelic-club.jpg" alt="a photo of three members of an alternative rock band, rocking out onstage with motion blur" width="764" height="1029" loading="lazy"></div>
-  <a class="meta" href="/notes/2026-10-02-betchadupa-gaelic-club/"><time datetime="2026-10-02T07:39:16.000Z">2 Oct 2026, 5:39 pm</time></a>
+  <a class="meta" href="/notes/2026-10-02-betchadupa-gaelic-club/" aria-current="page"><time datetime="2026-10-02T07:39:16.000Z">2 Oct 2026, 5:39 pm</time></a>
 </article>
-<article class="note">
-  <div class="body"><p>Looks like it is working.</p></div>
-  <div class="album" data-count="1"><img class="media" src="/media/timmy-it-works.gif" alt="Timmy the lamb from Shaun the Sheep, wide-eyed and slowly looking around." width="220" height="173" loading="lazy"></div>
-  <a class="meta" href="/notes/2026-09-25-looks-like-it-is-working/"><time datetime="2026-09-25T08:15:00.000Z">25 Sept 2026, 6:15 pm</time></a>
-</article>
-<article class="note">
-  <div class="body"><p>Second note. This one was written by an agent, built into static HTML, published with <code>sf publish</code>, then pushed to followers by a small worker.</p><p>No database-backed CMS in sight, apart from the tiny list of who follows.</p></div>
-  
-  <a class="meta" href="/notes/2026-09-25-second-note/"><time datetime="2026-09-25T08:05:00.000Z">25 Sept 2026, 6:05 pm</time></a>
-</article>
-<article class="note">
-  <div class="body"><p>Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets you follow it with ActivityPub.</p><p>If you're reading this in Mastodon, it worked.</p></div>
-  
-  <a class="meta" href="/notes/2026-09-25-hello-fediverse/"><time datetime="2026-09-25T07:30:00.000Z">25 Sept 2026, 5:30 pm</time></a>
-</article>
+<section class="reactions" data-note="2026-10-02-betchadupa-gaelic-club" hidden>
+  <p class="counts"></p>
+  <ol class="replies"></ol>
+</section>
+<script>
+(async () => {
+  const el = document.querySelector(".reactions");
+  const r = await fetch("/ap/interactions/" + el.dataset.note).then((r) => r.ok ? r.json() : null).catch(() => null);
+  if (!r || (!r.likes && !r.boosts && !r.replies.length)) return;
+  const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+  el.querySelector(".counts").textContent = [plural(r.likes, "like"), plural(r.boosts, "boost"), plural(r.replies.length, "reply").replace("replys", "replies")].join(" · ");
+  const ol = el.querySelector(".replies");
+  for (const x of r.replies) {
+    const li = document.createElement("li");
+    const a = Object.assign(document.createElement("a"), { href: x.url, textContent: x.handle });
+    const p = document.createElement("p");
+    p.textContent = new DOMParser().parseFromString(x.content, "text/html").body.textContent;
+    li.append(a, p);
+    ol.append(li);
+  }
+  el.hidden = false;
+})();
+</script>
 </main>
 <footer>Follow @notes@fedi-notes.view.fast from Mastodon, Pixelfed or any Fediverse app, or subscribe by <a href="/feed.xml">RSS</a> / <a href="/feed.json">JSON Feed</a>. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
 <script>

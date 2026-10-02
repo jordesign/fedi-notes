@@ -6,6 +6,16 @@
 <description>Short notes, written with an agent, published as static HTML on Spacefast and federated over ActivityPub. A prototype.</description>
 <atom:link href="https://fedi-notes.view.fast/feed.xml" rel="self" type="application/rss+xml"/>
 <item>
+<title>Betchadupa live at the Gaelic Club, Sydney. music livemusic musicphotography</title>
+<link>https://fedi-notes.view.fast/notes/2026-10-02-betchadupa-gaelic-club/</link>
+<guid isPermaLink="true">https://fedi-notes.view.fast/notes/2026-10-02-betchadupa-gaelic-club/</guid>
+<pubDate>Fri, 02 Oct 2026 07:39:16 GMT</pubDate>
+<category>music</category><category>livemusic</category><category>musicphotography</category>
+<description>&lt;p&gt;Betchadupa live at the Gaelic Club, Sydney. &lt;a href=&quot;https://fedi-notes.view.fast/tags/music&quot; class=&quot;mention hashtag&quot; rel=&quot;tag&quot;&gt;#&lt;span&gt;music&lt;/span&gt;&lt;/a&gt; &lt;a href=&quot;https://fedi-notes.view.fast/tags/livemusic&quot; class=&quot;mention hashtag&quot; rel=&quot;tag&quot;&gt;#&lt;span&gt;livemusic&lt;/span&gt;&lt;/a&gt; &lt;a href=&quot;https://fedi-notes.view.fast/tags/musicphotography&quot; class=&quot;mention hashtag&quot; rel=&quot;tag&quot;&gt;#&lt;span&gt;musicphotography&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;https://fedi-notes.view.fast/media/betchadupa-gaelic-club.jpg&quot; alt=&quot;a photo of three members of an alternative rock band, rocking out onstage with motion blur&quot; width=&quot;764&quot; height=&quot;1029&quot;&gt;&lt;/p&gt;</description>
+<enclosure url="https://fedi-notes.view.fast/media/betchadupa-gaelic-club.jpg" length="206773" type="image/jpeg"/>
+<media:content url="https://fedi-notes.view.fast/media/betchadupa-gaelic-club.jpg" type="image/jpeg" medium="image" width="764" height="1029"><media:description type="plain">a photo of three members of an alternative rock band, rocking out onstage with motion blur</media:description></media:content>
+</item>
+<item>
 <title>Looks like it is working.</title>
 <link>https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/</link>
 <guid isPermaLink="true">https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/</guid>

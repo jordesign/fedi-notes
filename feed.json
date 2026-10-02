@@ -12,6 +12,26 @@
   ],
   "items": [
     {
+      "id": "https://fedi-notes.view.fast/notes/2026-10-02-betchadupa-gaelic-club/",
+      "url": "https://fedi-notes.view.fast/notes/2026-10-02-betchadupa-gaelic-club/",
+      "content_html": "<p>Betchadupa live at the Gaelic Club, Sydney. <a href=\"https://fedi-notes.view.fast/tags/music\" class=\"mention hashtag\" rel=\"tag\">#<span>music</span></a> <a href=\"https://fedi-notes.view.fast/tags/livemusic\" class=\"mention hashtag\" rel=\"tag\">#<span>livemusic</span></a> <a href=\"https://fedi-notes.view.fast/tags/musicphotography\" class=\"mention hashtag\" rel=\"tag\">#<span>musicphotography</span></a></p><p><img src=\"https://fedi-notes.view.fast/media/betchadupa-gaelic-club.jpg\" alt=\"a photo of three members of an alternative rock band, rocking out onstage with motion blur\" width=\"764\" height=\"1029\"></p>",
+      "date_published": "2026-10-02T07:39:16.000Z",
+      "image": "https://fedi-notes.view.fast/media/betchadupa-gaelic-club.jpg",
+      "tags": [
+        "music",
+        "livemusic",
+        "musicphotography"
+      ],
+      "attachments": [
+        {
+          "url": "https://fedi-notes.view.fast/media/betchadupa-gaelic-club.jpg",
+          "mime_type": "image/jpeg",
+          "title": "a photo of three members of an alternative rock band, rocking out onstage with motion blur",
+          "size_in_bytes": 206773
+        }
+      ]
+    },
+    {
       "id": "https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/",
       "url": "https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/",
       "content_html": "<p>Looks like it is working.</p><p><img src=\"https://fedi-notes.view.fast/media/timmy-it-works.gif\" alt=\"Timmy the lamb from Shaun the Sheep, wide-eyed and slowly looking around.\" width=\"220\" height=\"173\"></p>",
