@@ -53,3 +53,9 @@ code { font: .88em ui-monospace, Menlo, monospace; background: var(--line); padd
 .replies p { margin: .2rem 0 0; }
 footer { color: var(--muted); font: 13px/1.5 ui-sans-serif, system-ui, sans-serif; padding-top: 2rem; padding-bottom: 3rem; }
 .media { display: block; max-width: 100%; height: auto; border-radius: 10px; margin: .2rem 0 .8rem; }
+.album { display: grid; gap: 4px; margin: .2rem 0 .8rem; border-radius: 10px; overflow: hidden; }
+.album[data-count="2"], .album[data-count="4"] { grid-template-columns: 1fr 1fr; }
+.album[data-count="3"] { grid-template-columns: 1fr 1fr; }
+.album[data-count="3"] .media:first-child { grid-column: 1 / -1; }
+.album .media { margin: 0; border-radius: 0; width: 100%; }
+.album:not([data-count="1"]) .media { aspect-ratio: 1; object-fit: cover; }

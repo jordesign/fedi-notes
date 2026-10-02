@@ -1,7 +1,7 @@
 // Build: posts/*.md → static HTML pages + lib/notes.gen.ts (bundled into the worker).
 // `node build.mjs --keygen` creates the actor keypair once.
 import { createHash, generateKeyPairSync } from "node:crypto";
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, appendFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync, appendFileSync } from "node:fs";
 
 const site = JSON.parse(readFileSync("site.config.json", "utf8"));
 const BASE = site.url.replace(/\/$/, "");
@@ -28,6 +28,7 @@ function inline(s) {
   s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, (_, t, u) => hold(`<a href="${esc(u)}">${esc(t)}</a>`));
   s = s.replace(/https?:\/\/[^\s<]+[^\s<.,;:!?)]/g, (u) => hold(`<a href="${esc(u)}">${esc(u.replace(/^https?:\/\//, ""))}</a>`));
   s = s.replace(/`([^`]+)`/g, (_, c) => hold(`<code>${esc(c)}</code>`));
+  s = s.replace(/(^|\s)#([\p{L}\p{N}_]+)/gu, (_, sp, t) => sp + hold(`<a href="${BASE}/tags/${esc(t.toLowerCase())}" class="mention hashtag" rel="tag">#<span>${esc(t)}</span></a>`));
   s = esc(s)
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/\*([^*]+)\*/g, "<em>$1</em>");
@@ -42,24 +43,61 @@ const render = (md) =>
 const TYPES = { gif: "image/gif", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp" };
 const mediaType = (u) => TYPES[u.split(".").pop().toLowerCase()] ?? "application/octet-stream";
 
+// Pixel size from the file header, so Mastodon/Pixelfed can lay out albums before images load.
+function dimensions(file) {
+  const b = readFileSync(file);
+  if (b.toString("ascii", 1, 4) === "PNG") return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
+  if (b.toString("ascii", 0, 3) === "GIF") return { width: b.readUInt16LE(6), height: b.readUInt16LE(8) };
+  if (b.toString("ascii", 8, 12) === "WEBP") {
+    const kind = b.toString("ascii", 12, 16);
+    if (kind === "VP8X") return { width: 1 + b.readUIntLE(24, 3), height: 1 + b.readUIntLE(27, 3) };
+    if (kind === "VP8L") { const v = b.readUInt32LE(21); return { width: 1 + (v & 0x3fff), height: 1 + ((v >> 14) & 0x3fff) }; }
+    return { width: b.readUInt16LE(26) & 0x3fff, height: b.readUInt16LE(28) & 0x3fff };
+  }
+  for (let i = 2; i < b.length; ) {
+    // JPEG: walk segments to the first start-of-frame marker.
+    const marker = b[i + 1];
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return { width: b.readUInt16BE(i + 7), height: b.readUInt16BE(i + 5) };
+    i += 2 + b.readUInt16BE(i + 2);
+  }
+  throw new Error(`${file}: can't read image size`);
+}
+
+const tagsOf = (md) => [...new Set([...md.matchAll(/(?:^|\s)#([\p{L}\p{N}_]+)/gu)].map((m) => m[1].toLowerCase()))];
+
 const notes = readdirSync("posts")
   .filter((f) => f.endsWith(".md"))
   .map((f) => {
     const raw = readFileSync(`posts/${f}`, "utf8");
     const m = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
     if (!m) throw new Error(`${f}: missing front matter`);
-    const meta = Object.fromEntries(m[1].split("\n").map((l) => l.split(/:\s*(.*)/s).slice(0, 2)));
+    // `image:` and `alt:` may repeat (an album); each alt belongs to the image above it.
+    const meta = {};
+    const images = [];
+    for (const line of m[1].split("\n")) {
+      const [k, v = ""] = line.split(/:\s*(.*)/s);
+      if (k === "image") images.push({ url: v.trim(), alt: "" });
+      else if (k === "alt" && images.length) images[images.length - 1].alt = v.trim();
+      else meta[k] = v;
+    }
     if (!meta.date) throw new Error(`${f}: missing date`);
+    for (const img of images) {
+      if (!existsSync(`.${img.url}`)) throw new Error(`${f}: missing ${img.url}`);
+      if (!img.alt) throw new Error(`${f}: ${img.url} needs alt text`);
+      Object.assign(img, { mediaType: mediaType(img.url) }, dimensions(`.${img.url}`));
+    }
+    const tags = tagsOf(m[2]);
     const html = render(m[2]);
     const note = {
       id: f.replace(/\.md$/, ""),
       published: new Date(meta.date).toISOString(),
       ...(meta.updated ? { updated: new Date(meta.updated).toISOString() } : {}),
       html,
-      ...(meta.image ? { image: { url: meta.image, alt: meta.alt ?? "", mediaType: mediaType(meta.image) } } : {}),
+      text: m[2].trim(),
+      tags,
+      images,
     };
-    if (note.image && !existsSync(`.${note.image.url}`)) throw new Error(`${f}: missing ${note.image.url}`);
-    note.hash = createHash("sha256").update(html + (note.updated ?? "") + (note.image ? JSON.stringify(note.image) : "")).digest("hex");
+    note.hash = createHash("sha256").update(html + (note.updated ?? "") + (images.length ? JSON.stringify(images) : "")).digest("hex");
     return note;
   })
   .sort((a, b) => b.published.localeCompare(a.published));
@@ -69,7 +107,8 @@ if (!existsSync("public.pem")) throw new Error("no public.pem: run `node build.m
 writeFileSync(
   "lib/notes.gen.ts",
   `// Generated by build.mjs. Do not edit.
-export type Note = { id: string; published: string; updated?: string; html: string; hash: string; image?: { url: string; alt: string; mediaType: string } };
+export type Image = { url: string; alt: string; mediaType: string; width: number; height: number };
+export type Note = { id: string; published: string; updated?: string; html: string; text: string; tags: string[]; hash: string; images: Image[] };
 export const SITE = ${JSON.stringify(site, null, 2)} as { url: string; username: string; name: string; summary: string; published: string; icon?: string };
 export const PUBLIC_KEY_PEM = ${JSON.stringify(readFileSync("public.pem", "utf8"))};
 export const NOTES: Note[] = ${JSON.stringify(notes, null, 2)};
@@ -87,6 +126,9 @@ const page = ({ title, alternate, body }) => `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <link rel="alternate" type="application/activity+json" href="${alternate}">
+<link rel="alternate" type="application/rss+xml" title="${esc(site.name)}" href="${BASE}/feed.xml">
+<link rel="alternate" type="application/feed+json" title="${esc(site.name)}" href="${BASE}/feed.json">
+<meta name="fediverse:creator" content="${HANDLE.slice(1)}">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -97,7 +139,7 @@ const page = ({ title, alternate, body }) => `<!doctype html>
 <main>
 ${body}
 </main>
-<footer>Follow ${HANDLE} from Mastodon or any Fediverse app. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
+<footer>Follow ${HANDLE} from Mastodon, Pixelfed or any Fediverse app, or subscribe by <a href="/feed.xml">RSS</a> / <a href="/feed.json">JSON Feed</a>. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
 <script>
 document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
   try { await navigator.clipboard.writeText(b.dataset.copy); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); } catch {}
@@ -109,7 +151,7 @@ document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => 
 
 const card = (n, link) => `<article class="note">
   <div class="body">${n.html}</div>
-  ${n.image ? `<img class="media" src="${esc(n.image.url)}" alt="${esc(n.image.alt)}" loading="lazy">` : ""}
+  ${n.images.length ? `<div class="album" data-count="${Math.min(n.images.length, 4)}">${n.images.map((i) => `<img class="media" src="${esc(i.url)}" alt="${esc(i.alt)}" width="${i.width}" height="${i.height}" loading="lazy">`).join("")}</div>` : ""}
   <a class="meta" href="/notes/${n.id}/"${link ? "" : ' aria-current="page"'}><time datetime="${n.published}">${fmt(n.published)}</time>${n.updated ? " · edited" : ""}</a>
 </article>`;
 
@@ -150,6 +192,15 @@ for (const n of notes) {
   );
 }
 
+rmSync("tags", { recursive: true, force: true });
+for (const t of new Set(notes.flatMap((n) => n.tags))) {
+  mkdirSync(`tags/${t}`, { recursive: true });
+  writeFileSync(
+    `tags/${t}/index.html`,
+    page({ title: `#${t} · ${site.name}`, alternate: `${BASE}/ap/actor`, body: `<p class="summary">Tagged #${esc(t)}</p>\n${notes.filter((n) => n.tags.includes(t)).map((n) => card(n, true)).join("\n")}` }),
+  );
+}
+
 writeFileSync(
   "index.html",
   page({
@@ -158,6 +209,62 @@ writeFileSync(
     body: `<p class="summary">${esc(site.summary)}</p>
 ${notes.map((n) => card(n, true)).join("\n")}`,
   }),
+);
+
+// ---------- feeds ----------
+
+const xml = (s) => esc(s).replace(/'/g, "&apos;");
+const abs = (u) => `${BASE}${u}`;
+const titleOf = (n) => n.text.split("\n")[0].replace(/[*`#]/g, "").slice(0, 80) || "Photo";
+const feedHtml = (n) => n.html + n.images.map((i) => `<p><img src="${abs(i.url)}" alt="${esc(i.alt)}" width="${i.width}" height="${i.height}"></p>`).join("");
+
+writeFileSync(
+  "feed.xml",
+  `<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+<title>${xml(site.name)}</title>
+<link>${BASE}/</link>
+<description>${xml(site.summary)}</description>
+<atom:link href="${BASE}/feed.xml" rel="self" type="application/rss+xml"/>
+${notes.slice(0, 50).map((n) => `<item>
+<title>${xml(titleOf(n))}</title>
+<link>${BASE}/notes/${n.id}/</link>
+<guid isPermaLink="true">${BASE}/notes/${n.id}/</guid>
+<pubDate>${new Date(n.published).toUTCString()}</pubDate>
+${n.tags.map((t) => `<category>${xml(t)}</category>`).join("")}
+<description>${xml(feedHtml(n))}</description>
+${n.images.map((i, k) => `${k ? "" : `<enclosure url="${abs(i.url)}" length="${statSync(`.${i.url}`).size}" type="${i.mediaType}"/>\n`}<media:content url="${abs(i.url)}" type="${i.mediaType}" medium="image" width="${i.width}" height="${i.height}"><media:description type="plain">${xml(i.alt)}</media:description></media:content>`).join("\n")}
+</item>`).join("\n")}
+</channel>
+</rss>
+`,
+);
+
+writeFileSync(
+  "feed.json",
+  JSON.stringify(
+    {
+      version: "https://jsonfeed.org/version/1.1",
+      title: site.name,
+      home_page_url: `${BASE}/`,
+      feed_url: `${BASE}/feed.json`,
+      description: site.summary,
+      authors: [{ name: site.name, url: `${BASE}/` }],
+      items: notes.slice(0, 50).map((n) => ({
+        id: `${BASE}/notes/${n.id}/`,
+        url: `${BASE}/notes/${n.id}/`,
+        content_html: feedHtml(n),
+        date_published: n.published,
+        ...(n.updated ? { date_modified: n.updated } : {}),
+        ...(n.images[0] ? { image: abs(n.images[0].url) } : {}),
+        ...(n.tags.length ? { tags: n.tags } : {}),
+        ...(n.images.length ? { attachments: n.images.map((i) => ({ url: abs(i.url), mime_type: i.mediaType, title: i.alt, size_in_bytes: statSync(`.${i.url}`).size })) } : {}),
+      })),
+    },
+    null,
+    2,
+  ),
 );
 
 console.log(`built ${notes.length} notes for ${HANDLE}`);

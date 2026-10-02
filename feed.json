@@ -1,0 +1,42 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Jordan's notes",
+  "home_page_url": "https://fedi-notes.view.fast/",
+  "feed_url": "https://fedi-notes.view.fast/feed.json",
+  "description": "Short notes, written with an agent, published as static HTML on Spacefast and federated over ActivityPub. A prototype.",
+  "authors": [
+    {
+      "name": "Jordan's notes",
+      "url": "https://fedi-notes.view.fast/"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/",
+      "url": "https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/",
+      "content_html": "<p>Looks like it is working.</p><p><img src=\"https://fedi-notes.view.fast/media/timmy-it-works.gif\" alt=\"Timmy the lamb from Shaun the Sheep, wide-eyed and slowly looking around.\" width=\"220\" height=\"173\"></p>",
+      "date_published": "2026-09-25T08:15:00.000Z",
+      "image": "https://fedi-notes.view.fast/media/timmy-it-works.gif",
+      "attachments": [
+        {
+          "url": "https://fedi-notes.view.fast/media/timmy-it-works.gif",
+          "mime_type": "image/gif",
+          "title": "Timmy the lamb from Shaun the Sheep, wide-eyed and slowly looking around.",
+          "size_in_bytes": 472011
+        }
+      ]
+    },
+    {
+      "id": "https://fedi-notes.view.fast/notes/2026-09-25-second-note/",
+      "url": "https://fedi-notes.view.fast/notes/2026-09-25-second-note/",
+      "content_html": "<p>Second note. This one was written by an agent, built into static HTML, published with <code>sf publish</code>, then pushed to followers by a small worker.</p><p>No database-backed CMS in sight, apart from the tiny list of who follows.</p>",
+      "date_published": "2026-09-25T08:05:00.000Z"
+    },
+    {
+      "id": "https://fedi-notes.view.fast/notes/2026-09-25-hello-fediverse/",
+      "url": "https://fedi-notes.view.fast/notes/2026-09-25-hello-fediverse/",
+      "content_html": "<p>Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets you follow it with ActivityPub.</p><p>If you're reading this in Mastodon, it worked.</p>",
+      "date_published": "2026-09-25T07:30:00.000Z"
+    }
+  ]
+}

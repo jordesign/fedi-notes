@@ -64,7 +64,11 @@ function noteObject(n: Note) {
     published: n.published,
     ...(n.updated ? { updated: n.updated } : {}),
     url: `${BASE}/notes/${n.id}/`,
-    ...(n.image ? { attachment: [{ type: "Image", mediaType: n.image.mediaType, url: `${BASE}${n.image.url}`, name: n.image.alt }] } : {}),
+    ...(n.images.length
+      ? { attachment: n.images.map((i) => ({ type: "Image", mediaType: i.mediaType, url: `${BASE}${i.url}`, name: i.alt, width: i.width, height: i.height })) }
+      : {}),
+    ...(n.tags.length ? { tag: n.tags.map((t) => ({ type: "Hashtag", href: `${BASE}/tags/${t}`, name: `#${t}` })) } : {}),
+    sensitive: false,
     to: [PUBLIC],
     cc: [FOLLOWERS],
   };

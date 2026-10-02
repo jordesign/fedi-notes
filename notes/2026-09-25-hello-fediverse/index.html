@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hello, Fediverse. This is a static notes site on Spacefast.  · Jordan's notes</title>
 <link rel="alternate" type="application/activity+json" href="https://fedi-notes.view.fast/ap/notes/2026-09-25-hello-fediverse">
+<link rel="alternate" type="application/rss+xml" title="Jordan's notes" href="https://fedi-notes.view.fast/feed.xml">
+<link rel="alternate" type="application/feed+json" title="Jordan's notes" href="https://fedi-notes.view.fast/feed.json">
+<meta name="fediverse:creator" content="notes@fedi-notes.view.fast">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -42,7 +45,7 @@
 })();
 </script>
 </main>
-<footer>Follow @notes@fedi-notes.view.fast from Mastodon or any Fediverse app. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
+<footer>Follow @notes@fedi-notes.view.fast from Mastodon, Pixelfed or any Fediverse app, or subscribe by <a href="/feed.xml">RSS</a> / <a href="/feed.json">JSON Feed</a>. Static HTML on Spacefast, plus a small ActivityPub worker.</footer>
 <script>
 document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
   try { await navigator.clipboard.writeText(b.dataset.copy); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); } catch {}

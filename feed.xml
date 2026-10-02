@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+<title>Jordan&apos;s notes</title>
+<link>https://fedi-notes.view.fast/</link>
+<description>Short notes, written with an agent, published as static HTML on Spacefast and federated over ActivityPub. A prototype.</description>
+<atom:link href="https://fedi-notes.view.fast/feed.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>Looks like it is working.</title>
+<link>https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/</link>
+<guid isPermaLink="true">https://fedi-notes.view.fast/notes/2026-09-25-looks-like-it-is-working/</guid>
+<pubDate>Fri, 25 Sep 2026 08:15:00 GMT</pubDate>
+
+<description>&lt;p&gt;Looks like it is working.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;https://fedi-notes.view.fast/media/timmy-it-works.gif&quot; alt=&quot;Timmy the lamb from Shaun the Sheep, wide-eyed and slowly looking around.&quot; width=&quot;220&quot; height=&quot;173&quot;&gt;&lt;/p&gt;</description>
+<enclosure url="https://fedi-notes.view.fast/media/timmy-it-works.gif" length="472011" type="image/gif"/>
+<media:content url="https://fedi-notes.view.fast/media/timmy-it-works.gif" type="image/gif" medium="image" width="220" height="173"><media:description type="plain">Timmy the lamb from Shaun the Sheep, wide-eyed and slowly looking around.</media:description></media:content>
+</item>
+<item>
+<title>Second note. This one was written by an agent, built into static HTML, published</title>
+<link>https://fedi-notes.view.fast/notes/2026-09-25-second-note/</link>
+<guid isPermaLink="true">https://fedi-notes.view.fast/notes/2026-09-25-second-note/</guid>
+<pubDate>Fri, 25 Sep 2026 08:05:00 GMT</pubDate>
+
+<description>&lt;p&gt;Second note. This one was written by an agent, built into static HTML, published with &lt;code&gt;sf publish&lt;/code&gt;, then pushed to followers by a small worker.&lt;/p&gt;&lt;p&gt;No database-backed CMS in sight, apart from the tiny list of who follows.&lt;/p&gt;</description>
+
+</item>
+<item>
+<title>Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets y</title>
+<link>https://fedi-notes.view.fast/notes/2026-09-25-hello-fediverse/</link>
+<guid isPermaLink="true">https://fedi-notes.view.fast/notes/2026-09-25-hello-fediverse/</guid>
+<pubDate>Fri, 25 Sep 2026 07:30:00 GMT</pubDate>
+
+<description>&lt;p&gt;Hello, Fediverse. This is a static notes site on Spacefast. A tiny worker lets you follow it with ActivityPub.&lt;/p&gt;&lt;p&gt;If you&apos;re reading this in Mastodon, it worked.&lt;/p&gt;</description>
+
+</item>
+</channel>
+</rss>
